@@ -1,7 +1,7 @@
 /* Instruments */
 
-import { stepperReducer } from './reducers/stepper.reducers';
+import { taskListCollectionReducer } from './reducers/todoList.reducers';
 
 export const reducer = {
-  stepper: stepperReducer,
+  taskListCollection: taskListCollectionReducer,
 };
