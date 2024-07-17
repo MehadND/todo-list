@@ -1,12 +1,5 @@
-// reducer states
-interface Task {
-  id: string;
-  title: string;
-  completed: boolean;
-  createdDate: string;
-  updatedDate?: string;
-  deletedDate?: string;
-  isDeleted: boolean;
+interface TaskListCollectionState {
+  taskLists: TaskList[];
 }
 
 interface TaskList {
@@ -15,6 +8,12 @@ interface TaskList {
   tasks: Task[];
 }
 
-interface TaskListCollectionState {
-  taskLists: TaskList[];
+interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  createdDate: string;
+  updatedDate?: string;
+  deletedDate?: string;
+  isDeleted: boolean;
 }
