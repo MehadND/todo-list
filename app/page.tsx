@@ -1,23 +1,15 @@
 'use client';
-import { useEffect } from 'react';
-import Image from 'next/image';
+import { Container, Typography } from '@mui/material';
 
-import { Box } from '@mui/material';
-import { toast } from 'react-toastify';
-
-import { useAppDispatch, useAppSelector } from '@/lib/redux';
-import { addTask, addTaskList } from '@/lib/redux/reducers/todoList.reducers';
-import icons from './_assets/svgs';
+import { TaskListCollection } from './_components/homeComponents';
 
 export default function Home() {
-  const { taskLists } = useAppSelector((state) => state.taskListCollection);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {}, []);
-
   return (
-    <Box>
-      <Image src={icons.addIcon} alt="addIcon" />
-    </Box>
+    <Container>
+      <Typography variant="h4" align="center" gutterBottom>
+        To-Do List Application
+      </Typography>
+      <TaskListCollection />
+    </Container>
   );
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
 import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import { Inter } from 'next/font/google';
 
 import { Providers } from '@/lib/providers';
