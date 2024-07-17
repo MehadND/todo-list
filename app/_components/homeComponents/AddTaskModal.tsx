@@ -44,6 +44,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
     formState: { errors },
     setValue,
     clearErrors,
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
       title: '',
@@ -63,11 +64,17 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
         reminder: data.reminder,
       }),
     );
+
+    closeModal();
+  };
+
+  const closeModal = () => {
+    reset();
     onClose();
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={closeModal}>
       <form onSubmit={handleSubmit(handleAddTask)}>
         <Box
           sx={{
