@@ -11,6 +11,9 @@ interface TaskList {
 interface Task {
   id: string;
   title: string;
+  description: string;
+  dueDate: string | null;
+  reminder: boolean;
   completed: boolean;
   createdDate: string;
   updatedDate?: string;

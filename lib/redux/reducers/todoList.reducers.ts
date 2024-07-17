@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { findTask, findTaskList, generateUniqueID } from '@/app/_utils/helper';
 import { defaultTodoList } from '@/app/_utils/constants';
 
@@ -25,13 +24,22 @@ const taskListCollectionSlice = createSlice({
     },
     addTask: (
       state,
-      action: PayloadAction<{ taskListId: string; title: string }>,
+      action: PayloadAction<{
+        taskListId: string;
+        title: string;
+        description: string;
+        dueDate: string | null;
+        reminder: boolean;
+      }>,
     ) => {
       const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
         taskList.tasks.push({
           id: generateUniqueID(),
           title: action.payload.title,
+          description: action.payload.description,
+          dueDate: action.payload.dueDate,
+          reminder: action.payload.reminder,
           completed: false,
           createdDate: new Date().toISOString(),
           isDeleted: false,
