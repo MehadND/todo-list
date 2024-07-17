@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const findTaskList = (
   state: TaskListCollectionState,
   taskListId: string,
@@ -10,4 +12,8 @@ export const findTask = (
   taskId: string,
 ): Task | undefined => {
   return taskList.tasks.find((task) => task.id === taskId);
+};
+
+export const generateUniqueID = () => {
+  return uuidv4();
 };
