@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { findTask, findTaskList, generateUniqueID } from '@/app/_utils/helper';
+import { defaultTodoList } from '@/app/_utils/constants';
+
 const initialState: TaskListCollectionState = {
-  taskLists: [],
+  taskLists: defaultTodoList,
 };
 
 const taskListCollectionSlice = createSlice({
@@ -10,7 +13,7 @@ const taskListCollectionSlice = createSlice({
   reducers: {
     addTaskList: (state, action: PayloadAction<string>) => {
       state.taskLists.push({
-        id: new Date().toISOString(),
+        id: generateUniqueID(),
         name: action.payload,
         tasks: [],
       });
@@ -24,12 +27,10 @@ const taskListCollectionSlice = createSlice({
       state,
       action: PayloadAction<{ taskListId: string; title: string }>,
     ) => {
-      const taskList = state.taskLists.find(
-        (taskList) => taskList.id === action.payload.taskListId,
-      );
+      const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
         taskList.tasks.push({
-          id: new Date().toISOString(),
+          id: generateUniqueID(),
           title: action.payload.title,
           completed: false,
           createdDate: new Date().toISOString(),
@@ -41,13 +42,9 @@ const taskListCollectionSlice = createSlice({
       state,
       action: PayloadAction<{ taskListId: string; taskId: string }>,
     ) => {
-      const taskList = state.taskLists.find(
-        (taskList) => taskList.id === action.payload.taskListId,
-      );
+      const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
-        const task = taskList.tasks.find(
-          (task) => task.id === action.payload.taskId,
-        );
+        const task = findTask(taskList, action.payload.taskId);
         if (task) {
           task.completed = !task.completed;
           task.updatedDate = new Date().toISOString();
@@ -58,13 +55,9 @@ const taskListCollectionSlice = createSlice({
       state,
       action: PayloadAction<{ taskListId: string; taskId: string }>,
     ) => {
-      const taskList = state.taskLists.find(
-        (taskList) => taskList.id === action.payload.taskListId,
-      );
+      const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
-        const task = taskList.tasks.find(
-          (task) => task.id === action.payload.taskId,
-        );
+        const task = findTask(taskList, action.payload.taskId);
         if (task) {
           task.isDeleted = true;
           task.deletedDate = new Date().toISOString();
@@ -75,9 +68,7 @@ const taskListCollectionSlice = createSlice({
       state,
       action: PayloadAction<{ taskListId: string; taskId: string }>,
     ) => {
-      const taskList = state.taskLists.find(
-        (taskList) => taskList.id === action.payload.taskListId,
-      );
+      const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
         taskList.tasks = taskList.tasks.filter(
           (task) => task.id !== action.payload.taskId,
@@ -88,13 +79,9 @@ const taskListCollectionSlice = createSlice({
       state,
       action: PayloadAction<{ taskListId: string; taskId: string }>,
     ) => {
-      const taskList = state.taskLists.find(
-        (taskList) => taskList.id === action.payload.taskListId,
-      );
+      const taskList = findTaskList(state, action.payload.taskListId);
       if (taskList) {
-        const task = taskList.tasks.find(
-          (task) => task.id === action.payload.taskId,
-        );
+        const task = findTask(taskList, action.payload.taskId);
         if (task && task.isDeleted) {
           task.isDeleted = false;
           task.deletedDate = undefined;
