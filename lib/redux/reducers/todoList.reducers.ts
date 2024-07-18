@@ -16,6 +16,7 @@ const taskListCollectionSlice = createSlice({
         tasks: [],
       });
     },
+    // TODO: Not used anywhere...
     deleteTaskList: (state, action: PayloadAction<string>) => {
       if (state.selectedListId === action.payload) {
         state.selectedListId = state.taskLists[0].id;
@@ -57,6 +58,7 @@ const taskListCollectionSlice = createSlice({
         }
       }
     },
+    // TODO: Not used anywhere...
     softDeleteTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
@@ -75,6 +77,7 @@ const taskListCollectionSlice = createSlice({
         );
       }
     },
+    // TODO: Not used anywhere...
     restoreTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
