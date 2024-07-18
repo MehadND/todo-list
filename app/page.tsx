@@ -1,15 +1,23 @@
 'use client';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 
 import { TaskListCollection } from './_components/homeComponents';
 
 export default function Home() {
   return (
     <Container>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography variant="h4" align="center" mt={10} >
         To-Do List Application
       </Typography>
-      <TaskListCollection />
+      <Box sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "calc(100vh - 200px)"
+      }}>
+        <TaskListCollection />
+      </Box>
     </Container>
   );
 }

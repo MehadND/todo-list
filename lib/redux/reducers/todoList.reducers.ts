@@ -23,14 +23,13 @@ const taskListCollectionSlice = createSlice({
     addTask: (
       state,
       action: PayloadAction<{
-        taskListId: string;
         title: string;
         description: string;
         dueDate: string | null;
         reminder: boolean;
       }>,
     ) => {
-      const taskList = findTaskList(state, action.payload.taskListId);
+      const taskList = findTaskList(state);
       if (taskList) {
         taskList.tasks.push({
           id: generateUniqueID(),
@@ -46,9 +45,9 @@ const taskListCollectionSlice = createSlice({
     },
     completeTask: (
       state,
-      action: PayloadAction<{ taskListId: string; taskId: string }>,
+      action: PayloadAction<{ taskId: string }>,
     ) => {
-      const taskList = findTaskList(state, action.payload.taskListId);
+      const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
         if (task) {
@@ -59,9 +58,9 @@ const taskListCollectionSlice = createSlice({
     },
     softDeleteTask: (
       state,
-      action: PayloadAction<{ taskListId: string; taskId: string }>,
+      action: PayloadAction<{ taskId: string }>,
     ) => {
-      const taskList = findTaskList(state, action.payload.taskListId);
+      const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
         if (task) {
@@ -72,9 +71,9 @@ const taskListCollectionSlice = createSlice({
     },
     hardDeleteTask: (
       state,
-      action: PayloadAction<{ taskListId: string; taskId: string }>,
+      action: PayloadAction<{ taskId: string }>,
     ) => {
-      const taskList = findTaskList(state, action.payload.taskListId);
+      const taskList = findTaskList(state);
       if (taskList) {
         taskList.tasks = taskList.tasks.filter(
           (task) => task.id !== action.payload.taskId,
@@ -83,9 +82,9 @@ const taskListCollectionSlice = createSlice({
     },
     restoreTask: (
       state,
-      action: PayloadAction<{ taskListId: string; taskId: string }>,
+      action: PayloadAction<{ taskId: string }>,
     ) => {
-      const taskList = findTaskList(state, action.payload.taskListId);
+      const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
         if (task && task.isDeleted) {
@@ -113,6 +112,7 @@ export const selectTasksOfSelectedList = createSelector(
     const selectedList = taskListCollection.taskLists.find(
       (taskList) => taskList.id === taskListCollection.selectedListId,
     );
+
     return selectedList ? selectedList.tasks : [];
   },
 );

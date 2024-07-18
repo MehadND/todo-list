@@ -14,6 +14,10 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
 
+import DoneIcon from '@mui/icons-material/Done';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import { formatTime } from '@/app/_utils/helper';
+
 interface TaskProps {
   task: Task;
   taskListId: string;
@@ -23,39 +27,89 @@ const Task: React.FC<TaskProps> = ({ task, taskListId }) => {
   const dispatch = useAppDispatch();
 
   const handleToggleComplete = () => {
-    dispatch(completeTask({ taskListId, taskId: task.id }));
+    dispatch(completeTask({ taskId: task.id }));
     toast.success('Task completed');
   };
 
   const handleSoftDelete = () => {
-    dispatch(hardDeleteTask({ taskListId, taskId: task.id }));
+    dispatch(hardDeleteTask({ taskId: task.id }));
     toast.success('Task deleted');
   };
 
   const handleRestore = () => {
-    dispatch(restoreTask({ taskListId, taskId: task.id }));
+    dispatch(restoreTask({ taskId: task.id }));
     toast.success('Task restored');
   };
 
   return (
-    <Box display="flex" alignItems="center" mb={1}>
-      <Checkbox
-        checked={task.completed}
-        onChange={handleToggleComplete}
-        disabled={task.isDeleted}
-      />
-      <Typography
-        style={{
-          textDecoration: task.completed ? 'line-through' : 'none',
-          opacity: task.isDeleted ? 0.5 : 1,
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          bgcolor:"#F7F7F7",
+          padding:"18px 15px",
+          borderLeft: "8px solid #F0B167",
+          borderRadius: "4px",
+          mb:"10px"
         }}
       >
-        {task.title}
-      </Typography>
-      <IconButton onClick={task.isDeleted ? handleRestore : handleSoftDelete}>
-        {task.isDeleted ? <RestoreIcon /> : <DeleteIcon />}
-      </IconButton>
-    </Box>
+        <Box>
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: '18px',
+              fontWeight: '500',
+            }}
+          >
+            {task.title}
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: '10px',
+              fontWeight: '500',
+              color: '#9F9F9F',
+            }}
+          >
+            {task.dueDate && formatTime(task.dueDate)}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Checkbox
+              checked={task.completed}
+              onChange={handleToggleComplete}
+              disabled={task.isDeleted}
+              checkedIcon={<DoneIcon sx={{color:"#FD4677"}} />}
+              icon={<CheckBoxOutlineBlankIcon  sx={{color:"#00000"}} />}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: '13px',
+                fontWeight: '500',
+              }}
+            >
+              {task.completed ? 'Completed' : ' Mark as complete'}
+            </Typography>
+          </Box>
+          <IconButton
+            onClick={task.isDeleted ? handleRestore : handleSoftDelete}
+          >
+            {task.isDeleted ? <RestoreIcon /> : <DeleteIcon />}
+          </IconButton>
+        </Box>
+      </Box>
   );
 };
 

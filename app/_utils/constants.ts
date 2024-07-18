@@ -3,7 +3,7 @@ import { generateUniqueID } from './helper';
 const id = generateUniqueID();
 export const defaultTodoList = [
   {
-    id: generateUniqueID(),
+    id: id,
     name: 'Default List',
     tasks: [],
   },
