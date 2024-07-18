@@ -1,8 +1,8 @@
 'use client';
-import { useState } from 'react';
-
+import { useState, memo } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-
+import { useAppSelector } from '@/lib/redux';
+import { selectTasksOfSelectedList } from '@/lib/redux/reducers/todoList.reducers';
 import {
   Task,
   TaskListTabs,
@@ -11,8 +11,10 @@ import {
 } from './_components/homeComponents';
 import { GenericButton } from './_components/common/buttons';
 
-import { useAppSelector } from '@/lib/redux';
-import { selectTasksOfSelectedList } from '@/lib/redux/reducers/todoList.reducers';
+const MemoizedTaskListTabs = memo(TaskListTabs);
+const MemoizedTask = memo(Task);
+const MemoizedTaskListModal = memo(TaskListModal);
+const MemoizedAddTaskModal = memo(AddTaskModal);
 
 export default function Home() {
   const tasks = useAppSelector((state) => selectTasksOfSelectedList(state));
@@ -57,7 +59,7 @@ export default function Home() {
             flexDirection: 'column',
           }}
         >
-          <TaskListTabs
+          <MemoizedTaskListTabs
             taskLists={taskLists}
             tabValue={tabValue}
             handleListChange={handleListChange}
@@ -72,7 +74,7 @@ export default function Home() {
           >
             <Box width="100%">
               {tasks.map((task) => (
-                <Task key={task.id} task={task} />
+                <MemoizedTask key={task.id} task={task} />
               ))}
             </Box>
           </Box>
@@ -94,8 +96,11 @@ export default function Home() {
             </GenericButton>
           </Box>
 
-          <TaskListModal open={addListModal} handleClose={handleClose} />
-          <AddTaskModal
+          <MemoizedTaskListModal
+            open={addListModal}
+            handleClose={handleClose}
+          />
+          <MemoizedAddTaskModal
             open={addTaskModal}
             onClose={handleAddTaskModalClose}
             taskListId={selectedListId}
