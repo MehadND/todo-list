@@ -20,10 +20,10 @@ export const generateUniqueID = () => {
 };
 
 
-export function formatTime(dateString: string): string {
+export function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  const formattedTime = date
-    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    .toLowerCase();
-  return formattedTime;
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 }

@@ -46,6 +46,7 @@ const GenericInput: React.FC<GenericInputProps> = ({
         <StyledTextField
           {...field}
           {...rest}
+          value={field.value ?? ''}
           error={!!fieldState.error}
           helperText={fieldState.error ? fieldState.error.message : ''}
         />
