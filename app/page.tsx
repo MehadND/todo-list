@@ -26,8 +26,8 @@ export default function Home() {
   const [addTaskModal, setAddTaskModal] = useState(false);
   const [tabValue, setTabValue] = useState(0);
 
-  const handleOpen = () => setAddListModal(true);
-  const handleClose = () => setAddListModal(false);
+  const handleAddListModalOpen = () => setAddListModal(true);
+  const handleAddListModalClose = () => setAddListModal(false);
   const handleAddTaskModalClose = () => setAddTaskModal(false);
 
   const handleListChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -83,7 +83,7 @@ export default function Home() {
             taskLists={taskLists}
             tabValue={tabValue}
             handleListChange={handleListChange}
-            handleOpen={handleOpen}
+            handleOpen={handleAddListModalOpen}
           />
           <Box
             sx={{
@@ -133,7 +133,7 @@ export default function Home() {
 
           <MemoizedTaskListModal
             open={addListModal}
-            handleClose={handleClose}
+            handleClose={handleAddListModalClose}
           />
           <MemoizedAddTaskModal
             open={addTaskModal}
