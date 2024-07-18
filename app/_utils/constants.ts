@@ -1,5 +1,6 @@
 import { generateUniqueID } from './helper';
 
+const id = generateUniqueID();
 export const defaultTodoList = [
   {
     id: generateUniqueID(),
@@ -7,3 +8,8 @@ export const defaultTodoList = [
     tasks: [],
   },
 ];
+
+export const reducerDefaultState : TaskListCollectionState = {
+  taskLists : defaultTodoList,
+  selectedListId: id,
+}
