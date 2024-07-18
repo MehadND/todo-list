@@ -16,7 +16,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 
 import DoneIcon from '@mui/icons-material/Done';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { formatTime } from '@/app/_utils/helper';
+import { formatDate } from '@/app/_utils/helper';
 
 interface TaskProps {
   task: Task;
@@ -71,7 +71,7 @@ const Task: React.FC<TaskProps> = ({ task, taskListId }) => {
               color: '#9F9F9F',
             }}
           >
-            {task.dueDate && formatTime(task.dueDate)}
+            {task.dueDate && formatDate(task.dueDate)}
           </Typography>
         </Box>
         <Box
