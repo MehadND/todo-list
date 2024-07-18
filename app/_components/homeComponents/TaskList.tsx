@@ -4,6 +4,7 @@ import { Button, Box, Typography } from '@mui/material';
 
 import Task from './Task';
 import AddTaskModal from './AddTaskModal';
+import { GenericFlatList } from '../common/flatlist';
 
 interface TaskListProps {
   taskList: TaskList;
@@ -26,9 +27,11 @@ const TaskList: React.FC<TaskListProps> = ({ taskList }) => {
         onClose={handleClose}
         taskListId={taskList.id}
       />
-      {taskList.tasks.map((task) => (
-        <Task key={task.id} task={task} />
-      ))}
+
+      <GenericFlatList
+        items={taskList.tasks}
+        renderItem={(task) => <Task key={task.id} task={task} />}
+      />
     </Box>
   );
 };
