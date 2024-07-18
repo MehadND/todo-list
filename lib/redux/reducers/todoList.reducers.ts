@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { findTask, findTaskList, generateUniqueID } from '@/app/_utils/helper';
 import { defaultTodoList, reducerDefaultState } from '@/app/_utils/constants';
 
@@ -104,6 +104,19 @@ const taskListCollectionSlice = createSlice({
   },
 });
 
+export const selectTasksOfSelectedList = createSelector(
+  [
+    (state: { taskListCollection: TaskListCollectionState }) =>
+      state.taskListCollection,
+  ],
+  (taskListCollection) => {
+    const selectedList = taskListCollection.taskLists.find(
+      (taskList) => taskList.id === taskListCollection.selectedListId,
+    );
+    return selectedList ? selectedList.tasks : [];
+  },
+);
+
 export const {
   addTaskList,
   deleteTaskList,
@@ -112,7 +125,7 @@ export const {
   softDeleteTask,
   hardDeleteTask,
   restoreTask,
-  updateSelectedTaskList
+  updateSelectedTaskList,
 } = taskListCollectionSlice.actions;
 
 export const taskListCollectionReducer = taskListCollectionSlice.reducer;
