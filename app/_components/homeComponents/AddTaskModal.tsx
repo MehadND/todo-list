@@ -1,18 +1,22 @@
 import React from 'react';
-import { Box, Typography, Grid, FormControl, Checkbox } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import Image from 'next/image';
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Box, Typography, Grid, FormControl, Checkbox } from '@mui/material';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+
+import { GenericModal } from '../common/modals';
+import { GenericInput } from '../common/inputs';
+import { GenericButton } from '../common/buttons';
+
 import { useAppDispatch } from '@/lib/redux/store';
 import { addTask } from '@/lib/redux/reducers/todoList.reducers';
-import Image from 'next/image';
-import cancel_icon from '@/app/_assets/svgs/cancelIcon.svg';
-import GenericModal from './GenericModal';
-import GenericInput from '../inputs/GenericInput';
-import GenericButton from '../buttons/GenericButton';
+
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import cancel_icon from '@/app/_assets/svgs/cancelIcon.svg';
 
 interface AddTaskModalProps {
   open: boolean;
@@ -27,11 +31,7 @@ interface FormValues {
   reminder: boolean;
 }
 
-const AddTaskModal: React.FC<AddTaskModalProps> = ({
-  open,
-  onClose,
-  taskListId,
-}) => {
+const AddTaskModal: React.FC<AddTaskModalProps> = ({ open, onClose }) => {
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
@@ -80,14 +80,14 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              borderTopRightRadius: "12px",
-              borderTopLeftRadius: "12px",
+              borderTopRightRadius: '12px',
+              borderTopLeftRadius: '12px',
             }}
           >
             <Typography variant="h6" fontSize={24} fontWeight={500}>
               Add a to do
             </Typography>
-            <Box onClick={closeModal} sx={{cursor:"pointer"}}>
+            <Box onClick={closeModal} sx={{ cursor: 'pointer' }}>
               <Image src={cancel_icon} alt="Cancel" />
             </Box>
           </Box>
@@ -144,7 +144,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
                           sx={{
                             backgroundColor: '#F7F7F7',
                             borderRadius: '4px',
-                            borderColor: "transparent"
+                            borderColor: 'transparent',
                           }}
                           slotProps={{
                             textField: {
@@ -162,7 +162,12 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
               </FormControl>
             </Grid>
 
-            <Box display="flex" alignItems="center" justifyContent="space-between" mt={2}>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              mt={2}
+            >
               <Typography>Set Reminder</Typography>
               <Controller
                 name="reminder"
@@ -171,10 +176,14 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
                   <Checkbox
                     {...field}
                     checked={field.value}
-                    icon={<NotificationsNoneOutlinedIcon />}  
-                    checkedIcon={<NotificationsActiveIcon sx={{
-                      color:"#926CB9"
-                    }}/>}
+                    icon={<NotificationsNoneOutlinedIcon />}
+                    checkedIcon={
+                      <NotificationsActiveIcon
+                        sx={{
+                          color: '#926CB9',
+                        }}
+                      />
+                    }
                     onChange={(e) => setValue('reminder', e.target.checked)}
                   />
                 )}
@@ -189,7 +198,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
                 sx={{
                   mt: 2,
                   width: '166px',
-                  height:"49px",
+                  height: '49px',
                   textTransform: 'capitalize',
                 }}
               >

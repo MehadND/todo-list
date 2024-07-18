@@ -1,72 +1,36 @@
 import React, { useState } from 'react';
-import { Button, Box, TextField, Typography, Tabs, Tab } from '@mui/material';
 
-import TaskList from './TaskList';
+import { Box } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '@/lib/redux';
+import { GenericButton } from '../common/buttons';
+
 import {
-  addTaskList,
-  selectTasksOfSelectedList,
-  updateSelectedTaskList,
-} from '@/lib/redux/reducers/todoList.reducers';
+  Task,
+  TaskListTabs,
+  TaskListModal,
+  AddTaskModal,
+} from '../homeComponents';
 
-import { toast } from 'react-toastify';
-import GenericButton from '../common/buttons/GenericButton';
-import GenericModal from '../common/modals/GenericModal';
-import Image from 'next/image';
-import icons from '@/app/_assets/svgs';
-import Task from './Task';
-import AddTaskModal from '../common/modals/AddTaskModal';
-import GenericInput from '../common/inputs/GenericInput';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import cancel_icon from '@/app/_assets/svgs/cancelIcon.svg';
-import { useSelector } from 'react-redux';
-
-interface FormValues {
-  name: string;
-}
+import { useAppSelector } from '@/lib/redux';
+import { selectTasksOfSelectedList } from '@/lib/redux/reducers/todoList.reducers';
 
 const TaskListCollection: React.FC = () => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    setValue,
-    clearErrors,
-    reset,
-  } = useForm<FormValues>();
-  const [open, setOpen] = useState(false);
-  const [addTaskModal, setAddTaskModal] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    reset();
-  };
-  const handleAddTaskModalClose = () => {
-    setAddTaskModal(false);
-    reset();
-  };
-
+  const tasks = useAppSelector((state) => selectTasksOfSelectedList(state));
   const { taskLists, selectedListId } = useAppSelector(
     (state) => state.taskListCollection,
   );
-  const dispatch = useAppDispatch();
 
-  const handleAddTaskList: SubmitHandler<FormValues> = ({ name }) => {
-    if (name.trim() !== '') {
-      dispatch(addTaskList(name));
-      toast.success('Task list added successfully');
-      handleClose();
-    }
+  const [addListModal, setAddListModal] = useState(false);
+  const [addTaskModal, setAddTaskModal] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleOpen = () => setAddListModal(true);
+  const handleClose = () => setAddListModal(false);
+  const handleAddTaskModalClose = () => setAddTaskModal(false);
+
+  const handleListChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
   };
-
-  const tasks = useAppSelector((state) => selectTasksOfSelectedList(state));
 
   return (
     <Box
@@ -80,61 +44,12 @@ const TaskListCollection: React.FC = () => {
         flexDirection: 'column',
       }}
     >
-      <Box
-        sx={{
-          bgcolor: '#926CB9',
-          color: 'white',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderTopRightRadius: '12px',
-          borderTopLeftRadius: '12px',
-        }}
-      >
-        <Tabs
-          value={tabValue}
-          onChange={handleChange}
-          sx={{
-            color: 'white',
-            '& .Mui-selected': {
-              color: 'white !important',
-            },
-            '& .MuiTabs-indicator': {
-              backgroundColor: '#F0B167',
-              height: '5px',
-            },
-            pr: '20px',
-          }}
-          variant="scrollable"
-          scrollButtons={false}
-          aria-label="scrollable prevent tabs example"
-        >
-          {taskLists.map((tab, index) => (
-            <Tab
-              key={index}
-              label={tab.name}
-              sx={{
-                color: 'white',
-                fontSize: '18px',
-                fontWeight: '500',
-                borderRight: '1px solid white',
-                padding: '22px 30px',
-                textTransform: 'capitalize',
-              }}
-              onClick={() =>
-                dispatch(updateSelectedTaskList({ taskListId: tab.id }))
-              }
-            />
-          ))}
-        </Tabs>
-        <Box
-          sx={{ cursor: 'pointer', mr: '15px', mt: '5px' }}
-          onClick={handleOpen}
-        >
-          <Image src={icons.addIcon} alt="Cancel" />
-        </Box>
-      </Box>
-
+      <TaskListTabs
+        taskLists={taskLists}
+        tabValue={tabValue}
+        handleListChange={handleListChange}
+        handleOpen={handleOpen}
+      />
       <Box
         sx={{
           padding: '20px 30px',
@@ -144,7 +59,7 @@ const TaskListCollection: React.FC = () => {
       >
         <Box width="100%">
           {tasks.map((task) => (
-            <Task key={task.id} task={task} taskListId={task.id} />
+            <Task key={task.id} task={task} />
           ))}
         </Box>
       </Box>
@@ -166,58 +81,7 @@ const TaskListCollection: React.FC = () => {
         </GenericButton>
       </Box>
 
-      <GenericModal open={open} onClose={handleClose}>
-        <form onSubmit={handleSubmit(handleAddTaskList)}>
-          <Box mb={1.5} width="100%">
-            <Box
-              sx={{
-                bgcolor: '#926CB9',
-                color: 'white',
-                py: '15px',
-                px: '20px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderTopRightRadius: '12px',
-                borderTopLeftRadius: '12px',
-              }}
-            >
-              <Typography variant="h6" fontSize={24} fontWeight={500}>
-                Add a to do list
-              </Typography>
-              <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
-                <Image src={cancel_icon} alt="Cancel" />
-              </Box>
-            </Box>
-            <Box py="25px" px="20px">
-              <GenericInput
-                name="name"
-                control={control}
-                label="Task Title"
-                placeholder="Enter title for the task"
-                fullWidth
-                rules={{ required: 'Task title is required' }}
-              />
-              <Box display="flex" justifyContent="center">
-                <GenericButton
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  fullWidth
-                  sx={{
-                    width: '166px',
-                    height: '49px',
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  Add List
-                </GenericButton>
-              </Box>
-            </Box>
-          </Box>
-        </form>
-      </GenericModal>
-
+      <TaskListModal open={addListModal} handleClose={handleClose} />
       <AddTaskModal
         open={addTaskModal}
         onClose={handleAddTaskModalClose}

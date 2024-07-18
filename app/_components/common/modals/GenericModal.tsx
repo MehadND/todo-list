@@ -8,15 +8,24 @@ interface GenericModalProps {
   boxProps?: BoxProps;
 }
 
-const GenericModal: React.FC<GenericModalProps> = ({ open, onClose, children, boxProps }) => (
-  <Modal open={open} onClose={onClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+const GenericModal: React.FC<GenericModalProps> = ({
+  open,
+  onClose,
+  children,
+  boxProps,
+}) => (
+  <Modal
+    open={open}
+    onClose={onClose}
+    sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+  >
     <Box
       sx={{
         bgcolor: 'background.paper',
         boxShadow: 24,
-        borderRadius: "12px",
+        borderRadius: '12px',
         maxWidth: 652,
-        width: "100%",
+        width: '100%',
         ...boxProps?.sx,
       }}
       {...boxProps}

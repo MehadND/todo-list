@@ -1,21 +1,22 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import Task from './Task';
+import React, { useState } from 'react';
+
 import { Button, Box, Typography } from '@mui/material';
-import AddTaskModal from '../common/modals/AddTaskModal';
+
+import Task from './Task';
+import AddTaskModal from './AddTaskModal';
 
 interface TaskListProps {
   taskList: TaskList;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ taskList }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
-    <Box width={"100%"} mb={4}>
+    <Box width={'100%'} mb={4}>
       <Typography variant="h6">{taskList.name}</Typography>
       <Button variant="outlined" onClick={handleOpen}>
         Add Task
@@ -26,7 +27,7 @@ const TaskList: React.FC<TaskListProps> = ({ taskList }) => {
         taskListId={taskList.id}
       />
       {taskList.tasks.map((task) => (
-        <Task key={task.id} task={task} taskListId={taskList.id} />
+        <Task key={task.id} task={task} />
       ))}
     </Box>
   );

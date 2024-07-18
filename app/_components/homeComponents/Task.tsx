@@ -8,22 +8,20 @@ import {
   completeTask,
   hardDeleteTask,
   restoreTask,
-  softDeleteTask,
 } from '@/lib/redux/reducers/todoList.reducers';
+
+import { formatTime } from '@/app/_utils/helper';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreIcon from '@mui/icons-material/Restore';
-
 import DoneIcon from '@mui/icons-material/Done';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { formatTime } from '@/app/_utils/helper';
 
 interface TaskProps {
   task: Task;
-  taskListId: string;
 }
 
-const Task: React.FC<TaskProps> = ({ task, taskListId }) => {
+const Task: React.FC<TaskProps> = ({ task }) => {
   const dispatch = useAppDispatch();
 
   const handleToggleComplete = () => {
@@ -42,74 +40,72 @@ const Task: React.FC<TaskProps> = ({ task, taskListId }) => {
   };
 
   return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        bgcolor: '#F7F7F7',
+        padding: '18px 15px',
+        borderLeft: '8px solid #F0B167',
+        borderRadius: '4px',
+        mb: '10px',
+      }}
+    >
+      <Box>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: '18px',
+            fontWeight: '500',
+          }}
+        >
+          {task.title}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: '10px',
+            fontWeight: '500',
+            color: '#9F9F9F',
+          }}
+        >
+          {task.dueDate && formatTime(task.dueDate)}
+        </Typography>
+      </Box>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          bgcolor:"#F7F7F7",
-          padding:"18px 15px",
-          borderLeft: "8px solid #F0B167",
-          borderRadius: "4px",
-          mb:"10px"
         }}
       >
-        <Box>
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: '18px',
-              fontWeight: '500',
-            }}
-          >
-            {task.title}
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: '10px',
-              fontWeight: '500',
-              color: '#9F9F9F',
-            }}
-          >
-            {task.dueDate && formatTime(task.dueDate)}
-          </Typography>
-        </Box>
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <Box
+          <Checkbox
+            checked={task.completed}
+            onChange={handleToggleComplete}
+            disabled={task.isDeleted}
+            checkedIcon={<DoneIcon sx={{ color: '#FD4677' }} />}
+            icon={<CheckBoxOutlineBlankIcon sx={{ color: '#00000' }} />}
+          />
+          <Typography
+            variant="h6"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
+              fontSize: '13px',
+              fontWeight: '500',
             }}
           >
-            <Checkbox
-              checked={task.completed}
-              onChange={handleToggleComplete}
-              disabled={task.isDeleted}
-              checkedIcon={<DoneIcon sx={{color:"#FD4677"}} />}
-              icon={<CheckBoxOutlineBlankIcon  sx={{color:"#00000"}} />}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                fontSize: '13px',
-                fontWeight: '500',
-              }}
-            >
-              {task.completed ? 'Completed' : ' Mark as complete'}
-            </Typography>
-          </Box>
-          <IconButton
-            onClick={task.isDeleted ? handleRestore : handleSoftDelete}
-          >
-            {task.isDeleted ? <RestoreIcon /> : <DeleteIcon />}
-          </IconButton>
+            {task.completed ? 'Completed' : ' Mark as complete'}
+          </Typography>
         </Box>
+        <IconButton onClick={task.isDeleted ? handleRestore : handleSoftDelete}>
+          {task.isDeleted ? <RestoreIcon /> : <DeleteIcon />}
+        </IconButton>
       </Box>
+    </Box>
   );
 };
 
