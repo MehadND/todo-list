@@ -73,9 +73,13 @@ export default function Home() {
             }}
           >
             <Box width="100%">
-              {tasks.map((task) => (
-                <MemoizedTask key={task.id} task={task} />
-              ))}
+              {tasks.length > 0 ? (
+                tasks.map((task) => <Task key={task.id} task={task} />)
+              ) : (
+                <Typography variant="h5" align="center" mt={15}>
+                  No Task Added Yet
+                </Typography>
+              )}
             </Box>
           </Box>
 
