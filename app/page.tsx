@@ -36,14 +36,34 @@ export default function Home() {
 
   return (
     <Container>
-      <Typography variant="h4" align="center" mt={10}>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{
+          fontSize: {
+            xs: '22px',
+            md: '24px',
+            lg: '28px',
+          },
+          mt: {
+            xs: '20px',
+            md: '40px',
+            lg: '60px',
+          },
+
+          mb: {
+            xs: '20px',
+            sm: '0px',
+          },
+        }}
+      >
         To-Do List Application
       </Typography>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: { xs: 'start', sm: 'center' },
           width: '100%',
           height: 'calc(100vh - 200px)',
         }}
@@ -76,7 +96,18 @@ export default function Home() {
               {tasks.length > 0 ? (
                 tasks.map((task) => <Task key={task.id} task={task} />)
               ) : (
-                <Typography variant="h5" align="center" mt={15}>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  mt={15}
+                  sx={{
+                    fontSize: {
+                      xs: '18px',
+                      md: '22px',
+                      lg: '24px',
+                    },
+                  }}
+                >
                   No Task Added Yet
                 </Typography>
               )}

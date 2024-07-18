@@ -25,7 +25,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
         boxShadow: 24,
         borderRadius: '12px',
         maxWidth: 652,
-        width: '100%',
+        width: '90%',
         ...boxProps?.sx,
       }}
       {...boxProps}

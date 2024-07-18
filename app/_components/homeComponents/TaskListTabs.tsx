@@ -59,7 +59,11 @@ const TaskListTabs: React.FC<TaskListTabsProps> = ({
             label={tab.name}
             sx={{
               color: 'white',
-              fontSize: '18px',
+              fontSize: {
+                xs: '14px',
+                md: '16px',
+                lg: '18px',
+              },
               fontWeight: '500',
               borderRight: '1px solid white',
               padding: '22px 30px',
@@ -72,10 +76,20 @@ const TaskListTabs: React.FC<TaskListTabsProps> = ({
         ))}
       </Tabs>
       <Box
-        sx={{ cursor: 'pointer', mr: '15px', mt: '5px' }}
+        sx={{
+          cursor: 'pointer',
+          mr: '15px',
+          mt: '5px',
+          width: {
+            xs: '30px',
+            lg: '40px',
+          },
+        }}
         onClick={handleOpen}
       >
-        <Image src={icons.addIcon} alt="Add" />
+        <Image src={icons.addIcon} alt="Add" style={{
+          width:"100%"
+        }} />
       </Box>
     </Box>
   );

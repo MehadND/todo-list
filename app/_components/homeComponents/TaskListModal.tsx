@@ -58,11 +58,30 @@ const TaskListModal: React.FC<TaskListModalProps> = ({ open, handleClose }) => {
               borderTopLeftRadius: '12px',
             }}
           >
-            <Typography variant="h6" fontSize={24} fontWeight={500}>
+            <Typography variant="h6" fontWeight={500} sx={{
+               fontSize: {
+                xs: '18px',
+                md: '22px',
+                lg: '24px',
+              },
+            }}>
               Add a to do list
             </Typography>
-            <Box onClick={handleClose} sx={{ cursor: 'pointer' }}>
-              <Image src={cancel_icon} alt="Cancel" />
+            <Box onClick={handleClose} sx={{
+                cursor: 'pointer',
+                width: {
+                  xs: '30px',
+                  lg: '40px',
+                },
+              }}
+            >
+              <Image
+                src={cancel_icon}
+                alt="Cancel"
+                style={{
+                  width: '100%',
+                }}
+              />
             </Box>
           </Box>
           <Box py="25px" px="20px">
