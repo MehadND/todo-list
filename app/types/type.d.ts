@@ -1,5 +1,6 @@
 interface TaskListCollectionState {
   taskLists: TaskList[];
+  selectedListId: string;
 }
 
 interface TaskList {
