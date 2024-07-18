@@ -1,6 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { findTask, findTaskList, generateUniqueID } from '@/app/_utils/helper';
-import { defaultTodoList, reducerDefaultState } from '@/app/_utils/constants';
+import { reducerDefaultState } from '@/app/_utils/constants';
 
 const initialState: TaskListCollectionState = reducerDefaultState;
 
@@ -16,6 +17,9 @@ const taskListCollectionSlice = createSlice({
       });
     },
     deleteTaskList: (state, action: PayloadAction<string>) => {
+      if (state.selectedListId === action.payload) {
+        state.selectedListId = state.taskLists[0].id;
+      }
       state.taskLists = state.taskLists.filter(
         (taskList) => taskList.id !== action.payload,
       );
@@ -43,10 +47,7 @@ const taskListCollectionSlice = createSlice({
         });
       }
     },
-    completeTask: (
-      state,
-      action: PayloadAction<{ taskId: string }>,
-    ) => {
+    completeTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
@@ -56,10 +57,7 @@ const taskListCollectionSlice = createSlice({
         }
       }
     },
-    softDeleteTask: (
-      state,
-      action: PayloadAction<{ taskId: string }>,
-    ) => {
+    softDeleteTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
@@ -69,10 +67,7 @@ const taskListCollectionSlice = createSlice({
         }
       }
     },
-    hardDeleteTask: (
-      state,
-      action: PayloadAction<{ taskId: string }>,
-    ) => {
+    hardDeleteTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
         taskList.tasks = taskList.tasks.filter(
@@ -80,10 +75,7 @@ const taskListCollectionSlice = createSlice({
         );
       }
     },
-    restoreTask: (
-      state,
-      action: PayloadAction<{ taskId: string }>,
-    ) => {
+    restoreTask: (state, action: PayloadAction<{ taskId: string }>) => {
       const taskList = findTaskList(state);
       if (taskList) {
         const task = findTask(taskList, action.payload.taskId);
