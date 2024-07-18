@@ -94,7 +94,7 @@ export default function Home() {
           >
             <Box width="100%">
               {tasks.length > 0 ? (
-                tasks.map((task) => <Task key={task.id} task={task} />)
+                tasks.map((task) => <MemoizedTask key={task.id} task={task} />)
               ) : (
                 <Typography
                   variant="h5"
