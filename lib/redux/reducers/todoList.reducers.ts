@@ -1,9 +1,9 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { taskListDefaultState } from '@/app/_utils/constants';
 import { findTask, findTaskList, generateUniqueID } from '@/app/_utils/helper';
-import { reducerDefaultState } from '@/app/_utils/constants';
 
-const initialState: TaskListCollectionState = reducerDefaultState;
+const initialState: TaskListCollectionState = taskListDefaultState;
 
 const taskListCollectionSlice = createSlice({
   name: 'taskListCollection',

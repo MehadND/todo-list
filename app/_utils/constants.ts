@@ -2,7 +2,7 @@ import { generateUniqueID } from './helper';
 
 const id = generateUniqueID();
 
-export const reducerDefaultState: TaskListCollectionState = {
+export const taskListDefaultState: TaskListCollectionState = {
   taskLists: [
     {
       id: id,
